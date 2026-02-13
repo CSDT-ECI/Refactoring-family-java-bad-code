@@ -8,7 +8,86 @@
 En este documento, se van a identificar y listar los "Code Smells" del proyecto original [family-java-bad-code](https://github.com/geektrust/family-java-bad-code); a partir de estos generaremos las propuestas de "Refactoring" que permitan reducir la deuda técnica, mejorar la mantenibilidad, legibilidad y escalabilidad del sistema para incluirla al proyecto.
 
 ## Code Smells
-A continuación se documentan los principales "Code smells" encontrados en el proyecto.
+#### 1. BLOATERS
+##### 1.1 Long Method 
+* `getRelationship()` dentro de la clase `Family`
+  * Utiliza un switch case para abarcar todos los miembros de la familia posibles
+  * Esto hace que sea un método bastante largo y difícil de mantener
+##### 1.2 Complex Methods 
+* `getSisterinlaw()` y `getBrotherinlaw()` dentro de la clase `Family`
+  *  Son muy similares entre sí
+  * Tienen una lógica compleja y duplicada
+##### 1.3 Long Parameter List 
+* `addRelationship()` dentro de la clase `Family`
+  * Tiene bastantes parámetros: `fatherName`, `motherName`, `name`, `gender`
+  * Sería mejor enviar un único objeto que contenga toda esta información
+##### 1.4 Large Class 
+* Clase `Family`
+  * Es bastante larga y pesada de leer
+  * Tiene demasiadas responsabilidades
+##### 1.5 Data Clumps (Grupos de Datos)
+* Los parámetros `fatherName`, `motherName`, `name`, `gender`
+  * Aparecen juntos en bastantes métodos dentro de la clase `Family`
+  * Deberían encapsularse en un objeto
+#### 2. OBJECT-ORIENTATION ABUSERS
+##### 2.1 Switch Statements
+* `getRelationship()` dentro de la clase `Family`
+  * Utiliza un switch para abarcar varios tipos de relaciones
+  * Se puede implementar por medio de polimorfismo para evitar el switch
+##### 2.2 Dead Code (Código Muerto)
+* `private static String st = new String()`; en la clase `Family`
+  * Nunca se utiliza para algo importante o notorio
+  * Es código muerto que debería eliminarse
+##### 2.3 Refused Bequest (Herencia Rechazada)
+* `addChild()` en la clase `Person`
+  * Siempre retorna true
+  * Debería abarcarse de una mejor manera manejando excepciones u otros casos
+#### 3. CHANGE PREVENTERS
+##### 3.1 Divergent Change 
+  * La clase `Family` se debería modificar por múltiples razones diferentes:
+  * Agregar nuevos tipos de relaciones
+  * Cambiar la lógica de búsqueda de familiares
+  * Modificar cómo se almacenan las personas
+##### 3.2 Shotgun Surgery (Cirugía de Escopeta)
+* Si cambiamos la forma de identificar a las personas (no identificarlas por nombre), deberíamos modificar:
+  * Todos los métodos de búsqueda
+  * Todos los Map
+  * La clase `Person`
+  * La clase `Family`
+  * El método `findPerson()` dentro de `Family`
+#### 4. DISPENSABLES
+##### 4.1 Lazy Class (Clase Perezosa)
+* Clase `Person`:
+  * Es mayormente un contenedor de datos con getters/setters
+  * Podría ser un simple DTO o record
+##### 4.2 Dead Code (Código Muerto)
+* En la clase `Family`:
+  * `private static String st = new String()`; → Nunca se usa
+  * En la clase `Person`:
+  * `setChildren()` → Nunca es invocado
+  * `spouseName` → Atributo con getter/setter pero nunca usado (se usa spouseRecord en su lugar)
+##### 4.3 Duplicate Code (Código Duplicado)
+* Lógica repetida en la clase `Family`:
+  * Lógica repetida en `getSisterinlaw()` y `getBrotherinlaw()`
+  * Lógica similar en todos los métodos `getPaternal/Maternal` `Uncle/Aunt`
+  * Patrón repetido de chequear "Dummy" en múltiples métodos
+##### 4.4 Comments (Comentarios Innecesarios)
+* // TODO Auto-generated constructor stub
+  * Comentario generado automáticamente sin valor
+  * Debería eliminarse
+#### 5. COUPLERS
+##### 5.1 Feature Envy (Envidia de Características)
+* Los métodos de relación en `Family` constantemente acceden a atributos internos de `Person`:
+  * `getFatherName()`
+  * `getMotherName()`
+  * `getGender()`
+  * `getChildren()`
+##### 5.2 Inappropriate Intimacy (Intimidad Inapropiada)
+* La clase `Family` conoce demasiado sobre la estructura interna de `Person`
+  * Uso de strings "mágicos" en lugar de constantes o enums:
+    * "Dummy"
+    * "Male"
+    * "Female"
 
 ## Refactoring
 #### 1. Arquitectura
@@ -138,8 +217,6 @@ Separar lógica de negocio de dependencias externas, permitiendo pruebas unitari
 * Mejor rendimiento
 * Código más claro
 
-### Conclusión
-La refactorización mejora significativamente la calidad del sistema al separar responsabilidades, reducir duplicación, mejorar el manejo de errores y facilitar el testeo. Estas mejoras permiten que el sistema evolucione de manera más segura y sostenible.
 
 ## Impacto en la deuda técnica
 La presencia de "Code smells" como clases grandes, métodos extensos, código duplicado, condicionales complejos y alto acoplamiento incrementa significativamente la deuda técnica al dificultar la comprensión, mantenimiento y evolución del sistema.
