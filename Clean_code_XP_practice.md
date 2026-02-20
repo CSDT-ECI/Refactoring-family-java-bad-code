@@ -51,7 +51,7 @@ El proyecto no cuenta con ninguna clase de pruebas, ni unitarias ni de integraci
 
 ---
 
-## Simple Design _Se aplica parcialmente_
+### Simple Design _Se aplica parcialmente_
 
 La estructura general de tres clases (`Main`, `Family`, `Person`) es razonablemente simple. Sin embargo, la clase `Family` acumula demasiadas responsabilidades: búsqueda de personas, adición de miembros, cálculo de todas las relaciones familiares e impresión de resultados en consola, lo cual viola el principio de diseño simple al hacer la clase más compleja de lo necesario.
 
@@ -59,7 +59,7 @@ La estructura general de tres clases (`Main`, `Family`, `Person`) es razonableme
 
 ---
 
-## Refactoring _No se aplica_
+### Refactoring _No se aplica_
 
 Existe código duplicado evidente. Los métodos `getPaternaluncle`, `getPaternalaunt`, `getMaternaluncle` y `getMaternalaunt` siguen exactamente la misma estructura: buscar al padre o madre del sujeto, buscar al abuelo correspondiente y filtrar sus hijos por género. Esta repetición indica que nunca se realizó un proceso de refactorización para consolidar la lógica común.
 
@@ -67,7 +67,7 @@ Existe código duplicado evidente. Los métodos `getPaternaluncle`, `getPaternal
 
 ---
 
-## Coding Standards _Se aplica parcialmente_
+### Coding Standards _Se aplica parcialmente_
 
 En términos generales el código sigue las convenciones de Java: uso de camelCase, nombres de métodos descriptivos y estructura de paquetes coherente. Sin embargo hay inconsistencias que indican ausencia de un estándar revisado: el campo `private static String st = new String()` en `Family` no tiene ningún uso aparente, el comentario `// TODO Auto-generated constructor stub` quedó del IDE sin limpiarse, y hay imports sin usar como `BufferedReader` dentro de `Family`.
 
@@ -75,7 +75,7 @@ En términos generales el código sigue las convenciones de Java: uso de camelCa
 
 ---
 
-## Continuous Integration (CI) _No se aplica_
+### Continuous Integration (CI) _No se aplica_
 
 No hay evidencia de ningún pipeline de integración continua que compile el proyecto y valide su comportamiento automáticamente ante cada cambio en el código.
 
@@ -83,14 +83,23 @@ No hay evidencia de ningún pipeline de integración continua que compile el pro
 
 ---
 
-## Metaphor y Documentación Colectiva _Se aplica parcialmente_
+### Metaphor y Documentación Colectiva _Se aplica parcialmente_
 
 No existe un README ni documentación de alto nivel que explique el modelo del dominio (Hay una, pero esta es un archivo que debe verse como algo "externo" al proyecto, ya que principalmente es para explicarnos la actividad a hacer, mas no uno integrado). Un desarrollador nuevo tendría que leer todo el código para entender qué representa `Family`, cómo interactúa con `Person`, o por qué se usa `spouseRecord` como estructura separada al `record` general.
 
 **Qué falta:** Documentar la metáfora del sistema, en este caso un árbol genealógico, explicando las decisiones de diseño principales y cómo se relacionan las clases entre sí.
 
-### Beneficios Generales
+## Beneficios Generales
+Aplicar prácticas XP y principios de Clean Code en un proyecto trae consigo ventajas concretas que justifican el esfuerzo:
+
+* **Mantenibilidad:** Un código limpio y bien estructurado es más fácil de modificar sin introducir errores nuevos.
+* **Detección temprana de fallos:** Las pruebas unitarias con TDD permiten identificar bugs antes de que lleguen a producción.
+* **Reducción de deuda técnica:** El refactoring continuo evita que el código se vuelva progresivamente más difícil de entender y modificar.
+* **Incorporación de nuevos desarrolladores:** Una buena documentación y estándares claros permiten que alguien nuevo entienda el proyecto sin depender de quien lo escribió.
+* **Confianza en los cambios:** Con CI y pruebas automatizadas, cada modificación puede verificarse de forma inmediata, reduciendo el miedo a romper funcionalidades existentes.
+* **Colaboración más efectiva:** Coding standards y ownership colectivo permiten que cualquier miembro del equipo trabaje sobre cualquier parte del código sin fricciones.
 
 ## Impacto
+Analizar este proyecto bajo los lentes de Clean Code y XP no es un ejercicio meramente académico: evidencia cómo decisiones aparentemente pequeñas, como dejar un campo estático sin uso, no escribir ninguna prueba o duplicar lógica en cuatro métodos casi idénticos, se acumulan silenciosamente hasta convertirse en una deuda técnica real que compromete la escalabilidad, la confiabilidad y la colaboración dentro del equipo. Adoptar estas prácticas de forma disciplinada transforma el código de algo que simplemente funciona en algo que puede crecer, adaptarse y ser comprendido por cualquier persona que se integre al proyecto, que es precisamente el estándar al que debería aspirar cualquier desarrollo de software profesional.
 
 ## Conclusiones
