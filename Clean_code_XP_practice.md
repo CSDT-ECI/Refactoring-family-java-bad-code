@@ -35,7 +35,34 @@ no es fácil ubicar cada una de las partes importantes del código; ademas de la
 
 ## Principios de programación
 
----
+De los principios SOLID evidenciamos que no se cumplen:
+
+S -> La clase `Family` tiene múltiples responsabilidades como gestionar el árbol genealógico, crear y poblar la familia inicial, buscar personas en el registro, calcular relaciones familiares, imprimir resultados y validar datos de entrada.
+Por lo que debería haber una division de clases para realizar estas tareas.
+La clase `Main` tiene múltiples responsabilidades como definir datos mockeados de la familia, leer archivos, parsear comandos y ejecutar la lógica de negocio. Por lo que debería haber una división de clases para esas tareas.
+
+O -> el método `getRelationship()` en `Family` tiene un switch case muy largo el cual al llegar a necesitar extensión se debe modificar el método y agregar el nuevo caso al switch violando este principio, por lo que se debería usar un patrón Strategy para las relaciones.
+
+L -> No se evidencia violación directa.
+
+I -> En la clase `Person`, `spouseName` nunca se usa, `setChildren()` nunca se invoca y los getters/setters estan expuestos innecesariamente, por lo que se deberían crear interfaces específicas si se necesitan varias vistas de `Person`.
+
+D -> La clase `Family` depende directamente de implementaciones concretas, es decir, depende de un HashMap especificamente, no hay abstracción para el repositorio de personas, por lo que debería haber inyección de dependencias vía constructor, usar interfaces para repositorios y separar la lógica de presentación de la lógica de negocio.
+
+Principios adicionales 
+
+DRY -> Se evidencia código duplicado en múltiples lugares por lo que debería extrarse en métodos auxiliares únicos.
+
+KISS -> Se evidencia complejidad innecesaria en el método `findPerson(String name)`.
+
+YAGNI -> Hay bastantes lineas de código no utilizadas que no aportan valor real.
+
+Law of Demeter -> El código conoce demasiado sobre la estructura interna, se deben cruzar múltiples objetos para obtener información por lo que deberían haber métodos que reduzcan esos cruces y obtener la información directamente.
+
+Encapsulamiento -> Hay problemas de encapsulamiento dentro de la clase `Person` que expone toda su estructura interna, Magic Strings sin encapsular y logica de negocio expuesta.
+
+Separation of Concerns -> Hay métodos que mezclan responsabilidades, que deberían estar separados en diferentes capas.
+
 ---
 ## Prácticas XP Aplicadas al Proyecto
 
@@ -90,7 +117,6 @@ No existe un README ni documentación de alto nivel que explique el modelo del d
 **Qué falta:** Documentar la metáfora del sistema, en este caso un árbol genealógico, explicando las decisiones de diseño principales y cómo se relacionan las clases entre sí.
 
 ## Beneficios Generales
-Aplicar prácticas XP y principios de Clean Code en un proyecto trae consigo ventajas concretas que justifican el esfuerzo:
 
 * **Mantenibilidad:** Un código limpio y bien estructurado es más fácil de modificar sin introducir errores nuevos.
 * **Detección temprana de fallos:** Las pruebas unitarias con TDD permiten identificar bugs antes de que lleguen a producción.
