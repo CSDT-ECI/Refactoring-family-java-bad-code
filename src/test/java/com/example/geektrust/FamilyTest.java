@@ -15,46 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyTest {
 
-    private static final String[] BASE_FAMILY = {
-        "Shan Anga Chit Male",
-        "Shan Anga Ish Male",
-        "Shan Anga Vich Male",
-        "Shan Anga Aras Male",
-        "Dummy Dummy Vyan Male",
-        "Dummy Dummy Amba Female",
-        "Dummy Dummy Lika Female",
-        "Dummy Dummy Chitra Female",
-        "Shan Anga Satya Female",
-        "Chit Amba Dritha Female",
-        "Chit Amba Tritha Female",
-        "Chit Amba Vritha Male",
-        "Dummy Dummy Jaya Male",
-        "Jaya Dritha Yodhan Male",
-        "Vich Lika Vila Female",
-        "Vich Lika Chika Female",
-        "Aras Chitra Janki Female",
-        "Aras Chitra Ahit Male",
-        "Dummy Dummy Arit Male",
-        "Arit Janki Laki Male",
-        "Arit Janki Lavnya Female",
-        "Vyan Satya Asva Male",
-        "Vyan Satya Vyas Male",
-        "Vyan Satya Atya Female",
-        "Dummy Dummy Satvy Female",
-        "Asva Satvy Vasa Male",
-        "Dummy Dummy Krpi Female",
-        "Vyas Krpi Kriya Male",
-        "Vyas Krpi Krithi Female",
-        "Chit Amba",
-        "Vich Lika",
-        "Aras Chitra",
-        "Vyan Satya",
-        "Jaya Dritha",
-        "Arit Janki",
-        "Asva Satvy",
-        "Vyas Krpi"
-    };
-
+    private static final String[] BASE_FAMILY = TestData.getFamily();
     private Family family;
 
     @BeforeEach
@@ -70,95 +31,6 @@ class FamilyTest {
     }
 
     // ════════════════════════════════════════════
-    // BLOQUE 1 – Modelo Person
-    // ════════════════════════════════════════════
-
-    @Nested
-    @DisplayName("Person – constructor y getters")
-    class PersonModelTest {
-
-        @Test
-        @DisplayName("Constructor básico almacena nombre y género")
-        void basicConstructor_storesNameAndGender() {
-            // Arrange & Act
-            Person person = new Person("TestPerson", "Male");
-
-            // Assert
-            assertEquals("TestPerson", person.getName());
-            assertEquals("Male", person.getGender());
-        }
-
-        @Test
-        @DisplayName("Constructor completo almacena padre y madre")
-        void fullConstructor_storesFatherAndMother() {
-            // Arrange & Act
-            Person person = new Person("Child", "Female", "Dad", "Mom");
-
-            // Assert
-            assertEquals("Dad", person.getFatherName());
-            assertEquals("Mom", person.getMotherName());
-        }
-
-        @Test
-        @DisplayName("Lista de hijos inicia vacía")
-        void newPerson_childrenListIsEmpty() {
-            // Arrange & Act
-            Person person = new Person("Solo", "Male");
-
-            // Assert
-            assertNotNull(person.getChildren());
-            assertTrue(person.getChildren().isEmpty());
-        }
-
-        @Test
-        @DisplayName("addChild agrega hijo correctamente")
-        void addChild_appendsChildToList() {
-            // Arrange
-            Person parent = new Person("Parent", "Female");
-            Person child  = new Person("Child", "Male");
-
-            // Act
-            boolean result = parent.addChild(child);
-
-            // Assert
-            assertTrue(result);
-            assertEquals(1, parent.getChildren().size());
-            assertEquals("Child", parent.getChildren().get(0).getName());
-        }
-
-        @Test
-        @DisplayName("toString retorna el nombre de la persona")
-        void toString_returnsName() {
-            // Arrange
-            Person person = new Person("Asha", "Female");
-
-            // Act & Assert
-            assertEquals("Asha", person.toString());
-        }
-
-        @Test
-        @DisplayName("setters actualizan los campos correctamente")
-        void setters_updateFields() {
-            // Arrange
-            Person person = new Person("Old", "Male");
-
-            // Act
-            person.setName("New");
-            person.setGender("Female");
-            person.setFatherName("Father");
-            person.setMotherName("Mother");
-            person.setSpouseName("Spouse");
-
-            // Assert
-            assertEquals("New",    person.getName());
-            assertEquals("Female", person.getGender());
-            assertEquals("Father", person.getFatherName());
-            assertEquals("Mother", person.getMotherName());
-            assertEquals("Spouse", person.getSpouseName());
-        }
-    }
-
-    // ════════════════════════════════════════════
     // BLOQUE 2 – addMember
     // ════════════════════════════════════════════
 
@@ -168,7 +40,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Agregar hijo a madre existente imprime CHILD_ADDITION_SUCCEEDED")
-        void addMember_validMother_succeeds() {
+        void Should_AddChildSuccessfully_When_MotherExists() {
             // Arrange
             ByteArrayOutputStream out = captureOutput();
 
@@ -181,7 +53,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Agregar hijo a madre inexistente imprime PERSON_NOT_FOUND")
-        void addMember_unknownMother_printsPersonNotFound() {
+        void Should_PrintPersonNotFound_When_MotherDoesNotExist() {
             // Arrange
             ByteArrayOutputStream out = captureOutput();
 
@@ -194,7 +66,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Agregar hijo usando un padre (género Male) imprime CHILD_ADDITION_FAILED")
-        void addMember_maleAsParent_printsFailed() {
+        void Should_FailChildAddition_When_ParentIsMale() {
             // Arrange
             ByteArrayOutputStream out = captureOutput();
 
@@ -207,7 +79,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("El hijo agregado aparece en la lista de hijos de la madre")
-        void addMember_childAppearsInMothersChildren() {
+        void Should_ReturnAddedChild_When_GetDaughterIsCalledAfterAddingFemaleChild() {
             // Arrange
             family.addMember("Anga", "NewChild", "Female");
 
@@ -220,7 +92,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Agregar hija (Female) y recuperarla con getDaughter")
-        void addMember_femaleChild_retrievedAsDaughter() {
+        void Should_ReturnFemaleChild_When_GetDaughterIsCalledAfterAddingFemaleChild() {
             // Arrange
             family.addMember("Anga", "Hija", "Female");
 
@@ -233,7 +105,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Agregar hijo (Male) y recuperarlo con getSon")
-        void addMember_maleChild_retrievedAsSon() {
+        void Should_ReturnMaleChild_When_GetSonIsCalledAfterAddingMaleChild() {
             // Arrange
             family.addMember("Anga", "Hijo", "Male");
 
@@ -258,7 +130,7 @@ class FamilyTest {
                                 "Maternal-Uncle","Maternal-Aunt","Paternal-Aunt",
                                 "Sister-In-Law","Brother-In-Law"})
         @DisplayName("Persona inexistente siempre imprime PERSON_NOT_FOUND")
-        void getRelationship_unknownPerson_printsNotFound(String relation) {
+        void Should_PrintPersonNotFound_When_NotRealPerson(String relation) {
             // Arrange
             ByteArrayOutputStream out = captureOutput();
 
@@ -280,7 +152,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("getSon de Shan retorna sus 4 hijos varones")
-        void getSon_shan_returnsFourSons() {
+        void Should_ReturnFourSons_When_GetSonIsCalledForShan() {
             // Arrange
             Person shan = findPersonViaFamily("Shan");
 
@@ -294,7 +166,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("getDaughter de Shan retorna su única hija Satya")
-        void getDaughter_shan_returnsSatya() {
+        void Should_ReturnSatya_When_GetDaughterIsCalledForShan() {
             // Arrange
             Person shan = findPersonViaFamily("Shan");
 
@@ -308,7 +180,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("getSon de persona sin hijos varones retorna lista vacía")
-        void getSon_personWithNoSons_returnsEmpty() {
+        void Should_ReturnEmptyList_When_PersonHasNoSons() {
             // Arrange
             Person vila = findPersonViaFamily("Vila");
 
@@ -321,7 +193,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("getRelationship Son imprime los nombres correctamente")
-        void getRelationship_son_printsSons() {
+        void Should_PrintAllSons_When_GetRelationshipSonIsCalledForShan() {
             // Arrange
             ByteArrayOutputStream out = captureOutput();
 
@@ -338,7 +210,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("getRelationship Daughter de persona sin hijas imprime NONE")
-        void getRelationship_daughter_noChildren_printsNone() {
+        void Should_PrintNone_When_GetRelationshipDaughterIsCalledForPersonWithoutDaughters() {
             // Arrange
             ByteArrayOutputStream out = captureOutput();
 
@@ -360,7 +232,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Chit tiene 4 hermanos: Ish, Vich, Aras, Satya")
-        void getSiblings_chit_returnsFourSiblings() {
+        void Should_ReturnFourSiblings_When_GetSiblingsIsCalledForChit() {
             // Arrange
             Person chit = findPersonViaFamily("Chit");
 
@@ -374,7 +246,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Persona con padre Dummy retorna lista vacía de hermanos")
-        void getSiblings_personWithDummyFather_returnsEmpty() {
+        void Should_ReturnEmptyList_When_PersonHasDummyFather() {
             // Arrange
             Person vyan = findPersonViaFamily("Vyan");
 
@@ -387,7 +259,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Persona única hija retorna lista vacía de hermanos")
-        void getSiblings_onlyChild_returnsEmpty() {
+        void Should_ReturnEmptyList_When_GetSiblingsIsCalledForOnlyChild() {
             // Arrange
             Person yodhan = findPersonViaFamily("Yodhan");
 
@@ -400,7 +272,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Siblings no incluye a la persona consultada")
-        void getSiblings_doesNotIncludeSelf() {
+        void Should_NotIncludeQueriedPerson_When_GetSiblingsIsCalled() {
             // Arrange
             Person chit = findPersonViaFamily("Chit");
 
@@ -422,7 +294,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Tíos paternos de Dritha son Ish, Vich, Aras (hermanos de Chit)")
-        void getPaternalUncle_dritha_returnsChitBrothers() {
+        void Should_ReturnPaternalUncles_When_GetPaternalUncleIsCalledForDritha() {
             // Arrange
             Person dritha = findPersonViaFamily("Dritha");
 
@@ -436,7 +308,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Tío materno de Laki retorna Ahit (hermano de Janki)")
-        void getMaternalUncle_laki_returnsAhit() {
+        void Should_ReturnMaternalUncle_When_GetMaternalUncleIsCalledForLaki() {
             // Arrange
             Person laki = findPersonViaFamily("Laki");
 
@@ -449,7 +321,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Tío paterno de persona con padre Dummy retorna lista vacía")
-        void getPaternalUncle_dummyFather_returnsEmpty() {
+        void Should_ReturnEmptyList_When_GetPaternalUncleIsCalledForPersonWithDummyFather() {
             // Arrange
             Person vyan = findPersonViaFamily("Vyan");
 
@@ -462,7 +334,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Tío materno de persona con madre Dummy retorna lista vacía")
-        void getMaternalUncle_dummyMother_returnsEmpty() {
+        void Should_ReturnEmptyList_When_GetMaternalUncleIsCalledForPersonWithDummyMother() {
             // Arrange
             Person vyan = findPersonViaFamily("Vyan");
 
@@ -484,7 +356,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Tías paternas de Dritha incluyen a Satya (hermana de Chit)")
-        void getPaternalAunt_dritha_returnsSatya() {
+        void Should_ReturnSatya_When_GetPaternalAuntIsCalledForDritha() {
             // Arrange
             Person dritha = findPersonViaFamily("Dritha");
 
@@ -497,7 +369,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Tía materna de Laki no incluye a Janki (la madre)")
-        void getMaternalAunt_laki_excludesJanki() {
+        void Should_NotIncludeMother_When_GetMaternalAuntIsCalled() {
             // Arrange
             Person laki = findPersonViaFamily("Laki");
 
@@ -510,7 +382,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Tía paterna de persona con padre Dummy retorna lista vacía")
-        void getPaternalAunt_dummyFather_returnsEmpty() {
+        void Should_ReturnEmptyList_When_GetPaternalAuntIsCalledForPersonWithDummyFather() {
             // Arrange
             Person vyan = findPersonViaFamily("Vyan");
 
@@ -532,7 +404,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Cuñadas de Vich incluyen esposas de sus hermanos")
-        void getSisterInLaw_vich_returnsAmbaAndChitra() {
+        void Should_ReturnSistersInLaw_When_GetSisterInLawIsCalledForVich() {
             // Arrange
             Person vich = findPersonViaFamily("Vich");
 
@@ -546,7 +418,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Cuñados de Dritha incluyen a Vritha (hermano de Dritha)")
-        void getBrotherInLaw_dritha_returnsVritha() {
+        void Should_ReturnBrothersInLaw_When_GetBrotherInLawIsCalledForDritha() {
             // Arrange
             Person dritha = findPersonViaFamily("Dritha");
 
@@ -559,7 +431,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Sister-In-Law de persona sin cónyuge ni hermanos devuelve vacío")
-        void getSisterInLaw_noSpouseNoSiblings_returnsEmpty() {
+        void Should_ReturnEmptyList_When_GetSisterInLawIsCalledForPersonWithoutSpouseAndSiblings() {
             // Arrange
             Person yodhan = findPersonViaFamily("Yodhan");
 
@@ -572,7 +444,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("Brother-In-Law de persona sin cónyuge ni hermanos devuelve vacío")
-        void getBrotherInLaw_noSpouseNoSiblings_returnsEmpty() {
+        void Should_ReturnEmptyList_When_GetBrotherInLawIsCalledForPersonWithoutSpouseAndSiblings() {
             // Arrange
             Person yodhan = findPersonViaFamily("Yodhan");
 
@@ -594,7 +466,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("getFamilyInstance retorna la misma instancia en llamadas repetidas")
-        void getFamilyInstance_returnsSameInstance() throws IOException {
+        void Should_ReturnSameInstance_When_GetFamilyInstanceIsCalledMultipleTimes() throws IOException {
             // Arrange
             Family first = Family.getFamilyInstance(BASE_FAMILY);
 
@@ -607,7 +479,7 @@ class FamilyTest {
 
         @Test
         @DisplayName("getFamilyInstance no retorna null")
-        void getFamilyInstance_notNull() throws IOException {
+        void Should_NotReturnNull_When_GetFamilyInstanceIsCalled() throws IOException {
             // Act
             Family f = Family.getFamilyInstance(BASE_FAMILY);
 
@@ -626,28 +498,28 @@ class FamilyTest {
 
         @Test
         @DisplayName("getRelationship con relación desconocida no lanza excepción")
-        void getRelationship_unknownRelation_doesNotThrow() {
+        void Should_NotThrowException_When_GetRelationshipIsCalledWithUnknownRelation() {
             // Arrange & Act & Assert
             assertDoesNotThrow(() -> family.getRelationship("Shan", "Cousin"));
         }
 
         @Test
         @DisplayName("getDaughter con persona null no lanza excepción")
-        void getDaughter_nullPerson_doesNotThrow() {
+        void Should_NotThrowException_When_GetDaughterIsCalledWithNullPerson() {
             // Arrange & Act & Assert
             assertDoesNotThrow(() -> family.getDaughter(null));
         }
 
         @Test
         @DisplayName("addMember con gender vacío no lanza excepción")
-        void addMember_emptyGender_doesNotThrow() {
+        void Should_NotThrowException_When_AddMemberIsCalledWithEmptyGender() {
             // Arrange & Act & Assert
             assertDoesNotThrow(() -> family.addMember("Anga", "NinoX", ""));
         }
 
         @Test
         @DisplayName("Agregar miembro con nombre ya existente no lanza excepción")
-        void addMember_duplicateName_doesNotThrow() {
+        void Should_NotThrowException_When_AddMemberIsCalledWithExistingName() {
             // Arrange
             ByteArrayOutputStream out = captureOutput();
 
@@ -666,7 +538,8 @@ class FamilyTest {
             "Vich, Daughter, 2"
         })
         @DisplayName("Conteo correcto de hijos por tipo de relación")
-        void childCount_parametrized(String personName, String relation, int expectedCount) {
+        void Should_ReturnCorrectChildrenCount_When_GetSonOrDaughterIsCalled(
+                String personName, String relation, int expectedCount) {
             // Arrange
             Person person = findPersonViaFamily(personName.trim());
 

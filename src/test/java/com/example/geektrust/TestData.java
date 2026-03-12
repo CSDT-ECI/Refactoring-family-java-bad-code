@@ -1,0 +1,46 @@
+package com.example.geektrust;
+
+public class TestData {
+
+    public static String[] getFamily() {
+        return new String[]{
+                "Shan Anga Chit Male",
+                "Shan Anga Ish Male",
+                "Shan Anga Vich Male",
+                "Shan Anga Aras Male",
+                "Dummy Dummy Vyan Male",
+                "Dummy Dummy Amba Female",
+                "Dummy Dummy Lika Female",
+                "Dummy Dummy Chitra Female",
+                "Shan Anga Satya Female",
+                "Chit Amba Dritha Female",
+                "Chit Amba Tritha Female",
+                "Chit Amba Vritha Male",
+                "Dummy Dummy Jaya Male",
+                "Jaya Dritha Yodhan Male",
+                "Vich Lika Vila Female",
+                "Vich Lika Chika Female",
+                "Aras Chitra Janki Female",
+                "Aras Chitra Ahit Male",
+                "Dummy Dummy Arit Male",
+                "Arit Janki Laki Male",
+                "Arit Janki Lavnya Female",
+                "Vyan Satya Asva Male",
+                "Vyan Satya Vyas Male",
+                "Vyan Satya Atya Female",
+                "Dummy Dummy Satvy Female",
+                "Asva Satvy Vasa Male",
+                "Dummy Dummy Krpi Female",
+                "Vyas Krpi Kriya Male",
+                "Vyas Krpi Krithi Female",
+                "Chit Amba",
+                "Vich Lika",
+                "Aras Chitra",
+                "Vyan Satya",
+                "Jaya Dritha",
+                "Arit Janki",
+                "Asva Satvy",
+                "Vyas Krpi"
+        };
+    }
+}

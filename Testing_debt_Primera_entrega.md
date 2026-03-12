@@ -1,24 +1,12 @@
-# 🧬 CSDT — Primera Entrega
+# Testing Debt — Primera Entrega
 
-> **Proyecto:** [family-java-bad-code](https://github.com/geektrust/family-java-bad-code) — Sistema de árbol genealógico en Java  
-> **Curso:** CSDT
-
+## Integrantes:
+- Juan David Martínez Méndez - [Fataltester](https://github.com/Fataltester)
+- Samuel Alejandro Prieto Reyes - [AlejandroPrieto82](https://github.com/AlejandroPrieto82)
+- Santiago Gualdrón Rincón - [Waldron63](https://github.com/Waldron63)
 ---
 
-**Integrantes**
-
-| Nombre | GitHub |
-|---|---|
-| Juan David Martínez Méndez | [@Fataltester](https://github.com/Fataltester) |
-| Samuel Alejandro Prieto Reyes | [@AlejandroPrieto82](https://github.com/AlejandroPrieto82) |
-| Santiago Gualdrón Rincón | [@Waldron63](https://github.com/Waldron63) |
-
-
----
-
-## 🔬 Deuda Técnica en Pruebas
-
-### ¿Qué es la deuda técnica en pruebas?
+## Introducción
 
 La **deuda técnica en pruebas** (*Testing Debt*) es la acumulación de trabajo pendiente en el área de verificación del software. Ocurre cuando las pruebas se omiten, posponen o implementan de forma deficiente. Al igual que la deuda financiera, si no se atiende, sus intereses crecen: cada nueva funcionalidad sin cobertura multiplica el riesgo de regresiones silenciosas y aumenta el costo de mantenimiento.
 
@@ -26,9 +14,11 @@ No es únicamente la ausencia de tests lo que genera esta deuda — también la 
 
 ---
 
+## Testing Debt en pruebas
+
 ### Prácticas de Testing Debt identificadas
 
-#### ❌ 1. Ausencia total de pruebas unitarias
+#### 1. Ausencia total de pruebas unitarias
 
 El proyecto no contaba con ninguna prueba antes de esta entrega. La clase `MainTest` existía pero estaba completamente vacía:
 
@@ -44,18 +34,16 @@ public class MainTest {
 
 ---
 
-#### ❌ 2. Singleton con estado estático — tests no aislados
+#### 2. Singleton con estado estático — tests no aislados
 
 `Family` implementa un Singleton mediante un campo `static`. El estado persiste entre tests si no se resetea manualmente.
 
 ```java
 // En Family.java
-private static Family family; // ← estado global compartido entre TODOS los tests
+private static Family family; // estado global compartido entre TODOS los tests
 ```
 
 **Impacto:** Un test que agrega un miembro a la familia contamina todos los tests que se ejecuten después. Los tests dejan de ser independientes y reproducibles.
-
-**Workaround aplicado** *(es en sí mismo deuda técnica — se documenta como tal)*:
 
 ```java
 @BeforeEach
@@ -65,12 +53,9 @@ void resetSingleton() throws Exception {
     field.set(null, null); // resetear el singleton por reflexión antes de cada test
 }
 ```
-
-> ⚠️ Necesitar **reflexión** para resetear estado entre tests es una señal clara de que el diseño dificulta el testeo.
-
 ---
 
-#### ❌ 3. `findPerson()` privado — no testeable directamente
+#### 3. findPerson() privado — no testeable directamente
 
 El método interno de búsqueda es `private`, lo que impide acceder a instancias de `Person` en los tests sin violar el encapsulamiento.
 
@@ -90,11 +75,9 @@ private Person findPersonViaFamily(String name) {
 }
 ```
 
-> ⚠️ Acceder a campos internos por reflexión acopla los tests a la implementación. Si se renombra `record`, todos los tests que usen este helper se rompen.
-
 ---
 
-#### ❌ 4. Lógica de negocio mezclada con `System.out`
+#### 4. Lógica de negocio mezclada con System.out
 
 Los métodos de `Family` imprimen directamente a consola en lugar de retornar valores. Verificar el comportamiento requiere capturar la salida estándar en cada test.
 
@@ -102,7 +85,7 @@ Los métodos de `Family` imprimen directamente a consola en lugar de retornar va
 // En Family.java — mezcla lógica con presentación
 private void print(List<String> nameList) {
     if (nameList.size() == 0) {
-        System.out.println("NONE"); // ← impresión directa
+        System.out.println("NONE"); // impresión directa
         return;
     }
     for (String name : nameList) {
@@ -122,11 +105,9 @@ family.getRelationship("Shan", "Son");
 assertTrue(out.toString().contains("Chit")); // verificar por texto es frágil
 ```
 
-> ⚠️ Un espacio extra o un salto de línea puede romper el test sin que haya cambiado la lógica.
-
 ---
 
-#### ❌ 5. Ausencia de validaciones de `null`
+#### 5. Ausencia de validaciones de null
 
 Varios métodos no validan si sus parámetros o resultados intermedios son `null`, lo que produce `NullPointerException` en casos borde completamente válidos.
 
@@ -135,14 +116,14 @@ Varios métodos no validan si sus parámetros o resultados intermedios son `null
 public Person(String name, String gender) {
     this.name = name;
     this.gender = gender;
-    this.setFatherName(null); // ← null explícito
+    this.setFatherName(null); // null explícito
     this.motherName = null;
 }
 
 // En Family.java — getSiblings() no valida null antes de llamar equals
 public List<String> getSiblings(Person person) {
     String fatherName = person.getFatherName();
-    if (fatherName.equals("Dummy")) // ← NullPointerException si fatherName es null
+    if (fatherName.equals("Dummy")) // NullPointerException si fatherName es null
         return siblings;
     ...
 }
@@ -153,6 +134,9 @@ public List<String> getSiblings(Person person) {
 ### Pruebas implementadas
 
 Se implementaron **51 tests** con JUnit 5, organizados en 10 bloques con el patrón AAA (*Arrange / Act / Assert*):
+
+Cada uno de los Test generados tiene la estructura del nombre **Should_[ExpectedBehavior]_When_[StateUnderTest]**
+para una comprensión clara de lo que se está probando.
 
 | Bloque | Qué cubre | Tests |
 |---|---|---|
@@ -184,7 +168,7 @@ Estos dos tests **no son errores en los tests**. Son errores en el **código de 
 
 ---
 
-#### 🔴 Fallo 1 — `getDaughter_nullPerson_doesNotThrow`
+#### Fallo 1 — getDaughter_nullPerson_doesNotThrow
 
 ```java
 @Test
@@ -215,7 +199,7 @@ public List<String> getDaughter(Person person) {
 
 ---
 
-#### 🔴 Fallo 2 — `getSiblings` con `fatherName == null`
+#### Fallo 2 — getSiblings con fatherName == null
 
 ```java
 @Test
@@ -252,12 +236,19 @@ public List<String> getSiblings(Person person) {
 
 El problema es una inconsistencia entre los dos constructores de `Person`: el constructor completo recibe `"Dummy"` como valor desde los datos de inicialización, pero el constructor básico guarda `null`. El código de `Family` asume que siempre llega `"Dummy"`, nunca `null`.
 
-> 💡 Estos 2 fallos son el argumento más concreto a favor del refactoring. No son casos de uso raros — son comportamientos esperables que el código actual no maneja.
+Estos 2 fallos son el argumento más concreto a favor del refactoring. No son casos de uso raros — son comportamientos esperables que el código actual no maneja.
 
 ---
-## ANALISIS
+
+## Análisis
+
 ---
 ## Conclusion
 
----
-Lol no se que mas
+La deuda técnica en pruebas durante el proyecto se evidenció inicialmente en la ausencia o insuficiencia de tests que
+validaran casos límite, relaciones familiares complejas y manejo de valores nulos, lo que permitió que errores como
+NullPointerException pasaran desapercibidos en etapas tempranas del desarrollo. A medida que se añadieron pruebas
+unitarias utilizando JUnit 5, se incrementó la cobertura y se detectaron defectos estructurales en la lógica del sistema,
+lo que implicó refactorizar código previamente escrito para hacerlo más robusto y seguro. Esta situación refleja cómo
+la falta inicial de pruebas genera deuda técnica que posteriormente requiere mayor esfuerzo para corregirse,
+afectando el tiempo de desarrollo, la mantenibilidad del código y la estabilidad del sistema.
