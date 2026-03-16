@@ -258,6 +258,8 @@ Y se verifica el reporte en el archivo html con la ruta
 ```
 build/reports/jacoco/test/html/index.html
 ```
+### Resultados
+Para ver los resultados puede descargar [aquí](jacocoindex.html)
 
 2. Análisis estático con SonarLint
 Para evaluar la calidad del código durante el desarrollo se utilizó SonarLint, una herramienta que se integra directamente con el entorno de desarrollo.
@@ -292,6 +294,8 @@ Y se verifica el reporte en el archivo html con la ruta
 build/reports/spotbugs/main.html
 ```
 ### Resultados obtenidos
+Para ver los resultados puede descargar [aquí](spotbugmain.html)
+
 ---
 ## Conclusion
 
