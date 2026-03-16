@@ -241,7 +241,57 @@ Estos 2 fallos son el argumento más concreto a favor del refactoring. No son ca
 ---
 
 ## Análisis
+1. Cobertura de pruebas con JaCoCo
 
+Se utilizó JaCoCo para medir la cobertura de pruebas unitarias.
+
+Esta herramienta permite identificar qué partes del código son ejecutadas durante las pruebas, ayudando a detectar secciones que no están siendo verificadas por tests.
+
+### Implementación 
+JaCoCo se integró en el proyecto mediante el plugin correspondiente de Gradle en el archivo build.gradle.
+
+Posteriormente se ejecuta con 
+```
+gradle test
+```
+Y se verifica el reporte en el archivo html con la ruta
+```
+build/reports/jacoco/test/html/index.html
+```
+
+2. Análisis estático con SonarLint
+Para evaluar la calidad del código durante el desarrollo se utilizó SonarLint, una herramienta que se integra directamente con el entorno de desarrollo.
+
+SonarLint permite detectar diferentes tipos de problemas en el código:
+* Bugs potenciales
+* Vulnerabilidades
+* Code smells
+* Problemas de mantenibilidad
+La herramienta utiliza reglas basadas en estándares de calidad y seguridad del software.
+
+### Implementación
+Se utiliza como una extensión en VS code o IntelliJ, una vez instalado el análisis se ejecuta automáticamente al abrir el archivo, los resultados se pueden ver dentro de la Pestaña Problems del editor.
+
+3. Detección de errores con SpotBugs
+Para complementar el análisis de calidad se utilizó SpotBugs, una herramienta que analiza el bytecode de aplicaciones Java para detectar posibles errores que podrían generar fallos en tiempo de ejecución.
+
+SpotBugs identifica problemas como:
+* posibles NullPointerException
+* comparaciones incorrectas de objetos
+* problemas de concurrencia
+* uso incorrecto de recursos
+
+### Implementación
+Se integra al proyecto mediante un pluggin con gradle en el archivo build.gradle.
+Posteriormente se ejecuta con 
+```
+gradle spotbugsMain
+```
+Y se verifica el reporte en el archivo html con la ruta
+```
+build/reports/spotbugs/main.html
+```
+### Resultados obtenidos
 ---
 ## Conclusion
 
