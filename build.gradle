@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'org.sonarqube' version '5.1.0.4882'
 }
 
 group = 'com.example'
@@ -11,6 +12,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+// ─── Jacoco ───────────────────────────────────────────────────────────────────
 jacoco {
     toolVersion = "0.8.11"
 }
@@ -24,6 +26,16 @@ jacocoTestReport {
     }
 }
 
+// ─── SonarQube / SonarCloud ───────────────────────────────────────────────────
+sonar {
+    properties {
+        property 'sonar.projectName', 'geektrust-family'
+        property 'sonar.coverage.jacoco.xmlReportPaths', './jacoco.xml'
+        property 'sonar.java.source', '1.8'
+    }
+}
+
+// ─── JAR ─────────────────────────────────────────────────────────────────────
 jar {
     archiveBaseName = 'geektrust'
     version = null
@@ -40,6 +52,7 @@ jar {
     }
 }
 
+// ─── Tests ───────────────────────────────────────────────────────────────────
 test {
     useJUnitPlatform()
     testLogging {
@@ -53,9 +66,10 @@ test {
                 "${result.successfulTestCount} successes, " +
                 "${result.failedTestCount} failures, " +
                 "${result.skippedTestCount} skipped)")
-        }
+    }
 }
 
+// ─── Repositorios y dependencias ─────────────────────────────────────────────
 repositories {
     mavenCentral()
 }
