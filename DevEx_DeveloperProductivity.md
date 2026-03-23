@@ -56,6 +56,124 @@ Con las pruebas que agregamos al menos se puede verificar el comportamiento ráp
 El problema más grande en términos de DevEx es el cognitive load. Una clase que hace todo es difícil de mantener, difícil de leer y difícil de modificar sin miedo a romper algo. Las pruebas unitarias son la mejora más concreta que hicimos, pero la deuda técnica estructural sigue ahí.
 
 ## SPACE
+## Framework SPACE
+
+### S — Satisfaction & Well-being
+
+Mide cómo se sienten los desarrolladores con su trabajo, las herramientas y la cultura del equipo.
+
+#### Puntos positivos
+- Los mensajes de salida del sistema (`CHILD_ADDITION_SUCCEEDED`, `PERSON_NOT_FOUND`, `CHILD_ADDITION_FAILED`) son claros, consistentes y comunican el resultado de cada operación de forma explícita.
+- Los tests incluyen un mecanismo de reset del Singleton con `@BeforeEach`, lo que muestra conciencia del problema y voluntad de mitigarlo.
+
+#### Puntos negativos
+- El patrón **Singleton con estado estático** en `Family` obliga a los tests a usar `Field.setAccessible(true)` para reiniciar el estado entre pruebas. Esta fricción genera frustración y es señal de un diseño que dificulta la experiencia del desarrollador.
+- El uso de `"Dummy"` como nombre ficticio para padres desconocidos es una solución funcional pero que contamina semánticamente el modelo de dominio, generando confusión a quien lee el código por primera vez.
+
+#### Métricas identificables
+| Métrica | Estado |
+|---|---|
+| Mensajes de error descriptivos | Presentes |
+| Fricción en setup de tests | Alta (reflection manual) |
+| Coherencia del modelo de dominio | Baja ("Dummy" como valor especial) |
+
+---
+
+### P — Performance
+
+Mide el valor generado por el desarrollador hacia el cliente final (outcomes).
+
+#### Puntos positivos
+- La lógica de todas las relaciones familiares (tíos, cuñados, hermanos, hijos) funciona correctamente y los tests lo verifican con aserciones precisas.
+- Los tests parametrizados con `@CsvSource` validan conteos exactos de hijos por tipo de relación, garantizando que el comportamiento esperado se mantiene.
+- Los casos límite están cubiertos (personas sin hijos, padres `Dummy`, listas vacías).
+
+#### Puntos negativos
+- **`findPerson` recorre todo el mapa con un `for` en O(n)**, desaprovechando completamente la ventaja del `HashMap` que permitiría un acceso directo en O(1) con `record.get(name)`. Todas las operaciones de relación heredan este costo innecesario.
+- Los datos de la familia están **hardcodeados directamente en `Main`**, haciendo imposible cambiar el árbol familiar sin recompilar el proyecto.
+- `TestData` es una copia exacta del array de `Main`, lo que implica duplicación y riesgo de inconsistencia.
+
+#### Métricas identificables
+| Métrica | Estado |
+|---|---|
+| Complejidad algorítmica de `findPerson` |  O(n) — debería ser O(1) |
+| Datos de configuración externalizados |  Hardcoded en `Main` |
+| Duplicación de código (`Main` vs `TestData`) |  Alta |
+
+---
+
+### A — Activity
+
+Mide las acciones y resultados finalizados por el desarrollador relacionados con su trabajo (codificación, diseño, CI/CD, tareas operativas).
+
+#### Puntos positivos
+- La suite de tests es el punto más fuerte del proyecto: **36 casos** distribuidos en **9 bloques `@Nested`** claramente organizados por responsabilidad.
+- Se usan `@ParameterizedTest` con `@ValueSource` y `@CsvSource`, cubriendo múltiples escenarios sin duplicar código de test.
+- La convención de nombres `Should_[resultado]_When_[condición]` es consistente en toda la suite y comunica la intención de cada prueba sin ambigüedad.
+- Se aplica consistentemente el patrón **AAA (Arrange-Act-Assert)** con comentarios explícitos.
+
+#### Puntos negativos
+- **No existe pipeline de CI/CD**. Los tests solo aportan valor si alguien los ejecuta manualmente, eliminando la retroalimentación automática ante cada cambio.
+- **No hay métricas de cobertura** configuradas (ausencia de JaCoCo u otro plugin en el `pom.xml`), lo que impide saber con precisión qué porcentaje del código está cubierto.
+- `TestData` está acoplada a `Main` (duplicación exacta del array de familia).
+
+#### Métricas identificables
+| Métrica | Valor estimado |
+|---|---|
+| Total de casos de prueba | 36 tests / 3 clases |
+| Cobertura estimada | ~80% (sin medición automática) |
+| Pipeline CI/CD | Ausente |
+| Reporte de cobertura automatizado | Ausente |
+
+---
+
+### C — Communication & Collaboration
+
+Mide cómo los equipos se comunican y trabajan colaborativamente de manera coordinada y fluida.
+
+#### Puntos positivos
+- El uso de `@DisplayName` en todos los tests facilita comunicar la intención de cada caso a otros miembros del equipo sin necesidad de leer el cuerpo del test.
+- `TestData` centraliza los datos de familia para toda la suite, estableciendo una fuente única de verdad para los tests (aunque duplicada con `Main`).
+- La convención `Should_When_` es un contrato implícito de nomenclatura que facilita la incorporación de nuevos colaboradores.
+
+#### Puntos negativos
+- El **Singleton con estado estático** dificulta el trabajo en paralelo: si dos desarrolladores trabajan en tests distintos y el reset falla, el estado de uno contamina al otro.
+- **No hay separación de capas**: toda la lógica de negocio vive en `Family` (consulta, mutación, impresión a consola), lo que genera conflictos constantes al trabajar sobre la misma clase.
+- La ausencia de una interfaz o contrato formal (`IFamilyRepository`, por ejemplo) dificulta que distintos desarrolladores trabajen en implementaciones alternativas.
+
+#### Métricas identificables
+| Métrica | Estado |
+|---|---|
+| Claridad de intención en tests (`@DisplayName`) | Presente |
+| Separación de responsabilidades (SRP) | Ausente en `Family` |
+| Riesgo de conflictos por Singleton | Alto |
+
+---
+
+### E — Efficiency & Flow
+
+Mide la capacidad de finalizar el trabajo con un mínimo de interrupciones, retrabajo o actividades sin valor.
+
+#### Puntos positivos
+- El patrón Singleton evita recrear el árbol familiar en cada operación, lo que tiene sentido para un objeto costoso de construir.
+- `addChild` retorna un `boolean`, lo que lo hace extensible para validaciones futuras.
+- `toString()` en `Person` facilita el debug rápido en consola sin configuración adicional.
+
+#### Puntos negativos
+- Existe un campo **`private static String st = new String()`** en `Family` que nunca se usa — código muerto que genera ruido.
+- El método `addRelation` puede lanzar `NullPointerException` si `father` o `mother` son nulos, ya que llama `father.addChild(child)` sin validar previamente, a diferencia de `addMember` que sí valida. Inconsistencia que genera retrabajo al depurar.
+- El uso de **reflection** en los tests para acceder al campo privado `record` es frágil: si se renombra ese campo, los tests rompen silenciosamente con un error de runtime, no de compilación — introduciendo interrupciones difíciles de rastrear.
+- El `switch` en `getRelationship` no tiene `default` que imprima un error útil para relaciones desconocidas, aunque el test de caso límite confirma que al menos no lanza excepción.
+
+#### Métricas identificables
+| Métrica | Estado |
+|---|---|
+| Código muerto | `st` sin usar en `Family` |
+| Consistencia de validación de nulos | Parcial (`addMember` vs `addRelation`) |
+| Fragilidad de tests por reflection | Alta |
+| Complejidad ciclomática de `Family` | Alta (switch + múltiples métodos de relación) |
+
+---
 
 ## Oportunidades de Mejora
 
