@@ -35,6 +35,19 @@ sonar {
     }
 }
 
+// ─── PIT Mutation Testing ─────────────────────────────────────────────────────
+pitest {
+    junit5PluginVersion  = '1.2.1'
+    targetClasses        = ['com.example.geektrust.*']
+    targetTests          = ['com.example.geektrust.*']
+    mutators             = ['DEFAULTS']
+    outputFormats        = ['HTML', 'XML']
+    timestampedReports   = false
+    reportsDir           = file("$buildDir/reports/pitest")
+    threads              = 2
+    mutationThreshold    = 0  // the build fails if the score is less than the mutation value
+    coverageThreshold    = 0 // the build fails if the code coverage is less than the coverage value
+}
 // ─── JAR ─────────────────────────────────────────────────────────────────────
 jar {
     archiveBaseName = 'geektrust'
