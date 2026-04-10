@@ -63,3 +63,48 @@ Cada defecto detectado durante el flujo, se transforma en una spec nueva. El con
 5. Casos borde y validaciones de reglas de negocio: El comportamiento depende de condiciones (madre inexistente, madre con género inválido para la operación, etc.).
 
 ## Análisis
+
+### Vibe Coding
+ 
+#### Ventajas dentro del proyecto
+ 
+- **Velocidad de exploración** — Permite generar alternativas de refactorización rápidamente con herramientas como Copilot o ChatGPT, útil en la fase inicial cuando todavía se está entendiendo la estructura de `Family`.
+- **Bajo costo de entrada** — No requiere diseñar specs antes de escribir código, lo que agiliza el prototipado de ideas.
+- **Código visualmente más limpio en poco tiempo** — La IA puede producir versiones más ordenadas de funciones complejas de manera casi inmediata.
+- **Descubrimiento de patrones y librerías** — Útil para encontrar enfoques alternativos durante la fase de optimización que el equipo no conocía.
+ 
+#### Desventajas dentro del proyecto
+ 
+- **Riesgo alto de regresiones silenciosas en `Family`** — Al refactorizar relaciones familiares sin specs, un cambio en `getSiblings` o `getPaternalUncle` puede producir resultados incorrectos que nadie detecta hasta producción.
+- **Optimizaciones sin evidencia** — Cambios estructurales que "se sienten lógicos" pero no están respaldados por métricas concretas pueden no atacar el cuello de botella real.
+- **Falsa seguridad de los tests** — Si los tests pasan pero no cubren los casos borde modificados (`NONE`, `PERSON_NOT_FOUND`, género inválido), el comportamiento puede haberse roto sin saberlo.
+- **Contrato del CLI no protegido** — Sin un spec formal, cambios en cómo `Main` interpreta comandos pueden producir salidas distintas a las esperadas de forma silenciosa.
+- **Deuda técnica por dependencias no evaluadas** — Integrar librerías sugeridas por la IA sin revisar mantenimiento o compatibilidad acumula riesgo a largo plazo.
+ 
+---
+
+### SDD
+ 
+#### Ventajas dentro del proyecto
+ 
+- **Protección del contrato del CLI** — Una spec de integración sobre `Main` garantiza que dado un archivo de comandos, la salida impresa sea exactamente la esperada, incluso después de refactorizaciones profundas.
+- **Refactorización segura de `Family`** — Las specs de unidad para cada relación (`getSon`, `getSiblings`, `getPaternalUncle`, etc.) detectan regresiones automáticamente al cambiar la estructura interna.
+- **Los bugs quedan prevenidos permanentemente** — Cada defecto encontrado se convierte en una spec que falla antes de la corrección y pasa después. El bug no puede volver sin que la suite lo detecte.
+- **Documentación viva del sistema** — Las specs son la fuente de verdad del comportamiento esperado, más confiables que comentarios o wikis que quedan desactualizados.
+- **Mejor contexto para la IA** — Entregar specs concretas a Copilot o ChatGPT como contexto produce código más preciso y alineado con los requerimientos reales del proyecto.
+ 
+#### Desventajas dentro del proyecto
+ 
+- **Inversión inicial** — Requiere escribir specs antes de modificar el código, lo que puede sentirse lento al inicio del ciclo de refactorización.
+- **Tedioso para cambios pequeños o experimentales** — Para exploración o código desechable, el overhead de definir specs puede no justificarse.
+- **Falsa seguridad si las specs están mal escritas** — Specs que no cubren los casos borde relevantes dan la misma falsa seguridad que los tests mal escritos del Vibe Coding.
+- **Curva de aprendizaje** — Si el equipo no está familiarizado con el flujo SDD, la adopción requiere coordinación y tiempo de adaptación.
+ 
+---
+## Conclusión final
+ 
+**SDD es el enfoque principal para este proyecto.** Dado que el núcleo del trabajo es la refactorización y optimización de código existente, la correctitud del comportamiento no es negociable. El contrato del CLI en `Main` y la lógica de relaciones en `Family` son zonas de alto riesgo donde un cambio inadvertido produce resultados silenciosamente incorrectos.
+ 
+El riesgo más concreto es el **escenario 5 del Vibe Coding**: confiar en que verde = correcto. Las specs de SDD resuelven exactamente eso, porque capturan los casos borde (`NONE`, `PERSON_NOT_FOUND`, género inválido para la operación) que los tests genéricos suelen omitir.
+ 
+Sin embargo, **Vibe Coding no debe descartarse por completo**. Es valioso como punto de partida exploratorio, para generar alternativas de implementación con IA, o para código desechable en fases iniciales. La clave está en no aceptar el output de la IA sin convertirlo después en una spec verificable.
