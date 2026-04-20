@@ -41,4 +41,11 @@ Atributos de calidad afectados:
 * **mantenibilidad:** un desarrollador nuevo no tiene forma de saber qué significa `"Dummy"` sin leer toda la clase.
 * **portabilidad:** el sistema no puede adaptarse a distintos conjuntos de datos sin recompilar.
 
-## Conslusion
+## Conclusion
+El análisis de deuda arquitectónica realizado permitió identificar tres smells fundamentales que comprometen la sostenibilidad del sistema a largo plazo: la concentración excesiva de responsabilidades en Family.java (God Component), el acoplamiento circular entre Family.java y Person.java (Cyclic Dependency), y el uso de datos y valores mágicos embebidos directamente en el código fuente (Hardcoded Data / Magic Values).
+
+Estos smells no son problemas aislados, sino que se retroalimentan entre sí: la concentración de lógica en Family.java facilita que las dependencias circulares proliferen, y ambos problemas se agravan cuando los datos de entrada están hardcodeados, porque cualquier cambio estructural obliga a intervenir simultáneamente múltiples puntos del sistema. El resultado es un código frágil, difícil de probar de forma aislada y costoso de evolucionar sin introducir regresiones.
+
+Los atributos de calidad más afectados de forma transversal son la modificabilidad, la mantenibilidad y la testeabilidad, los cuales son pilares críticos en cualquier sistema que deba crecer o ser mantenido por equipos cambiantes. Ignorar esta deuda implica que el costo de cada nueva funcionalidad o corrección aumentará progresivamente, hasta el punto en que refactorizar sea más costoso que reescribir.
+
+Como estrategia de mitigación, se recomienda aplicar los principios de responsabilidad única (SRP) y de inversión de dependencias (DIP) para descomponer Family.java, romper el ciclo de dependencias mediante interfaces o capas intermedias, y externalizar los datos de configuración y valores centinela a constantes nombradas o archivos de configuración. Estas acciones, aunque no alteran el comportamiento observable del sistema, reducen significativamente la deuda arquitectónica acumulada y sientan las bases para un desarrollo más sostenible.
