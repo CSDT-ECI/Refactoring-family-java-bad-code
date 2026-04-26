@@ -1,16 +1,19 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'org.sonarqube' version '5.1.0.4882'
+    id 'info.solidsoft.pitest' version '1.15.0'
 }
 
 group = 'com.example'
 version = '1.0'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
+// ─── Jacoco ───────────────────────────────────────────────────────────────────
 jacoco {
     toolVersion = "0.8.11"
 }
@@ -24,6 +27,29 @@ jacocoTestReport {
     }
 }
 
+// ─── SonarQube / SonarCloud ───────────────────────────────────────────────────
+sonar {
+    properties {
+        property 'sonar.projectName', 'geektrust-family'
+        property 'sonar.coverage.jacoco.xmlReportPaths', './jacoco.xml'
+        property 'sonar.java.source', '1.8'
+    }
+}
+
+// ─── PIT Mutation Testing ─────────────────────────────────────────────────────
+pitest {
+    junit5PluginVersion  = '1.2.1'
+    targetClasses        = ['com.example.geektrust.*']
+    targetTests          = ['com.example.geektrust.*']
+    mutators             = ['DEFAULTS']
+    outputFormats        = ['HTML', 'XML']
+    timestampedReports   = false
+    reportsDir           = file("$buildDir/reports/pitest")
+    threads              = 2
+    mutationThreshold    = 0  // the build fails if the score is less than the mutation value
+    coverageThreshold    = 0 // the build fails if the code coverage is less than the coverage value
+}
+// ─── JAR ─────────────────────────────────────────────────────────────────────
 jar {
     archiveBaseName = 'geektrust'
     version = null
@@ -40,6 +66,7 @@ jar {
     }
 }
 
+// ─── Tests ───────────────────────────────────────────────────────────────────
 test {
     useJUnitPlatform()
     testLogging {
@@ -53,9 +80,10 @@ test {
                 "${result.successfulTestCount} successes, " +
                 "${result.failedTestCount} failures, " +
                 "${result.skippedTestCount} skipped)")
-        }
+    }
 }
 
+// ─── Repositorios y dependencias ─────────────────────────────────────────────
 repositories {
     mavenCentral()
 }
