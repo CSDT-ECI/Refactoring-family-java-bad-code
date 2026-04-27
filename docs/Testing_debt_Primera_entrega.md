@@ -383,7 +383,7 @@ gradle test
 # Reporte en: build/reports/jacoco/test/html/index.html
 ```
 
-También se puede ver el reporte en el momento de hacer este documento [aquí](jacocoindex.html)
+También se puede ver el reporte en el momento de hacer este documento [aquí](../reports/jacocoindex.html)
 
 ### Resultados obtenidos (51 tests iniciales)
 

@@ -29,14 +29,20 @@ Este repositorio se generó a partir de un proyecto existente con código que ne
 
 **Repositorio:** [family-java-bad-code](https://github.com/geektrust/family-java-bad-code)
 
+**Problemática:** [Geektrust-Problems1.pdf](Geektrust-Problems1.pdf)
+
 ---
 
 ## Índice
 
-* [README Original](./Original_README.md)
-* [Code Smells y Propuestas de Refactoring](./Code_smells_Propuestas_refactoring.md)
-* [Clean Code XP Practice](./Clean_code_XP_practice.md)
-* [Testing Debt Primera Entrega](./Testing_debt_Primera_entrega.md)
+* [README Original](docs/Original_README.md)
+* [Code Smells y Propuestas de Refactoring](docs/Code_smells_Propuestas_refactoring.md)
+* [Clean Code XP Practice](docs/Clean_code_XP_practice.md)
+* [Testing Debt Primera Entrega](docs/Testing_debt_Primera_entrega.md)
+* [DevEx Developer Productivity](docs/DevEx_DeveloperProductivity.md)
+* [Procesos de CI](docs/Procesos_de_CI.md)
+* [Vibe Coding vs SDD](docs/Vibe_codings_SDD.md)
+* [Architectural Smells](docs/Architectural_Smells.md)
 
 ---
 
@@ -104,25 +110,33 @@ La estructura del proyecto es la siguiente:
 ```
 .
 ├── build.gradle
-├── Clean_code_XP_practice.md
-├── Code_smells_Propuestas_refactoring.md
+├── docs
+│   ├── Architectural_Smells.md
+│   ├── Clean_code_XP_practice.md
+│   ├── Code_smells_Propuestas_refactoring.md
+│   ├── DevEx_DeveloperProductivity.md
+│   ├── Original_README.md
+│   ├── Procesos_de_CI.md
+│   ├── Testing_debt_Primera_entrega.md
+│   └── Vibe_codings_SDD.md
 ├── Geektrust-Problems1.pdf
-├── LICENSE
-├── Original_README.md
-├── README.md
-├── Testing_debt_Primera_entrega.md
-├── input.txt
-├── rootFamily.txt
-├── jacoco.xml
 ├── gradlew
 ├── gradlew.bat
-├── run.sh
-├── run.bat
-│
-├── sample_input
-│   ├── input1.txt
-│   └── input2.txt
-│
+├── input
+│   ├── input.txt
+│   ├── rootFamily.txt
+│   └── sample_input
+│       ├── input1.txt
+│       └── input2.txt
+├── LICENSE
+├── README.md
+├── reports
+│   ├── jacocoindex.html
+│   ├── jacoco.xml
+│   └── spotbugmain.html
+├── scripts
+│   ├── run.bat
+│   └── run.sh
 └── src
     ├── main/java/com/example/geektrust
     │                          ├── Family.java
@@ -134,12 +148,6 @@ La estructura del proyecto es la siguiente:
                                ├── PersonTest.java
                                └── TestData.java
 ```
-
-___
-
-## Ejecución
-
-Por definir cuando se complete la refactorización.
 
 ___
 
