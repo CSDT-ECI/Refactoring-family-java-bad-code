@@ -1,0 +1,27 @@
+title: Refactoring Family Java Project
+description: Refactoring, Code Quality and Software Architecture Project
+theme: just-the-docs
+
+url: "https://csdt-eci.github.io"
+baseurl: "/Refactoring-family-java-bad-code"
+
+# Navegación
+nav_enabled: true
+search_enabled: true
+
+# UI
+color_scheme: light
+
+# Footer
+footer_content: "Proyecto académico - CSDT"
+
+# Permite links a HTML (reportes)
+aux_links:
+  "GitHub Repository":
+    - "https://github.com/CSDT-ECI/Refactoring-family-java-bad-code"
+
+# Orden por carpetas (opcional pero recomendado)
+collections:
+  docs:
+    permalink: "/:path/"
+    output: true
