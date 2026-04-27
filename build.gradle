@@ -1,50 +1,78 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'org.sonarqube' version '5.1.0.4882'
+    id 'info.solidsoft.pitest' version '1.15.0'
 }
 
 group = 'com.example'
 version = '1.0'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
-jacoco { //Please do not change this
-    toolVersion = "0.8.4"
-    reportsDir = file("$buildDir/jacoco")
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
-jacocoTestReport { //Please do not change this
+// ─── Jacoco ───────────────────────────────────────────────────────────────────
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+jacocoTestReport {
     reports {
-        xml.enabled true
-        csv.enabled false
-        html.enabled false
-        xml.destination file("./jacoco.xml")
+        xml.required = true
+        csv.required = false
+        html.required = true
+        xml.outputLocation = file("./jacoco.xml")
     }
 }
 
-jar {
-    archiveBaseName = 'geektrust' //Please do not change this final artifact name
-    version =  null               //Please do not change this final artifact version
-    manifest {
-        attributes 'Main-Class' : 'com.example.geektrust.Main' //Change this to the main class of your program which will be executed
+// ─── SonarQube / SonarCloud ───────────────────────────────────────────────────
+sonar {
+    properties {
+        property 'sonar.projectName', 'geektrust-family'
+        property 'sonar.coverage.jacoco.xmlReportPaths', './jacoco.xml'
+        property 'sonar.java.source', '1.8'
     }
-    // To create a single jar with all dependencies.
+}
+
+// ─── PIT Mutation Testing ─────────────────────────────────────────────────────
+pitest {
+    junit5PluginVersion  = '1.2.1'
+    targetClasses        = ['com.example.geektrust.*']
+    targetTests          = ['com.example.geektrust.*']
+    mutators             = ['DEFAULTS']
+    outputFormats        = ['HTML', 'XML']
+    timestampedReports   = false
+    reportsDir           = file("$buildDir/reports/pitest")
+    threads              = 2
+    mutationThreshold    = 0  // the build fails if the score is less than the mutation value
+    coverageThreshold    = 0 // the build fails if the code coverage is less than the coverage value
+}
+// ─── JAR ─────────────────────────────────────────────────────────────────────
+jar {
+    archiveBaseName = 'geektrust'
+    version = null
+    manifest {
+        attributes 'Main-Class' : 'com.example.geektrust.Main'
+    }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     } {
         exclude "META-INF/*.SF"
         exclude "META-INF/*.DSA"
         exclude "META-INF/*.RSA"
-	include "META-INF/*.txt"
+        include "META-INF/*.txt"
     }
 }
 
-test { ///Please do not change this
+// ─── Tests ───────────────────────────────────────────────────────────────────
+test {
     useJUnitPlatform()
     testLogging {
         events "PASSED", "SKIPPED", "FAILED", "STANDARD_ERROR"
     }
-    finalizedBy jacocoTestReport // report is always generated after tests run
+    finalizedBy jacocoTestReport
     afterSuite { desc, result ->
         if (!desc.parent)
             println("${result.resultType} " +
@@ -52,15 +80,17 @@ test { ///Please do not change this
                 "${result.successfulTestCount} successes, " +
                 "${result.failedTestCount} failures, " +
                 "${result.skippedTestCount} skipped)")
-        }
+    }
 }
 
-
+// ─── Repositorios y dependencias ─────────────────────────────────────────────
 repositories {
-     mavenCentral()
+    mavenCentral()
 }
 
-//Add your dependencies here
 dependencies {
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version:'5.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
 }
