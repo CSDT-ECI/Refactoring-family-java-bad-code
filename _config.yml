@@ -1,9 +1,13 @@
 title: Refactoring Family Java Project
 description: Refactoring, Code Quality and Software Architecture Project
-theme: just-the-docs
 
 url: "https://csdt-eci.github.io"
 baseurl: "/Refactoring-family-java-bad-code"
+
+remote_theme: just-the-docs/just-the-docs
+
+plugins:
+  - jekyll-remote-theme
 
 # Navegación
 nav_enabled: true
