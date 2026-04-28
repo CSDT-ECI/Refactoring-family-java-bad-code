@@ -1,7 +1,7 @@
 ---
-title: Readme
-nav_order: 2
-nav_exclude: true
+title: Refactoring Family Java Project
+layout: default
+nav_order: 1
 ---
 
 # Refactoring Family Java Bad Code
@@ -41,14 +41,14 @@ Este repositorio se generó a partir de un proyecto existente con código que ne
 
 ## Índice
 
-* [README Original](docs/Original_README.md)
-* [Code Smells y Propuestas de Refactoring](docs/Code_smells_Propuestas_refactoring.md)
-* [Clean Code XP Practice](docs/Clean_code_XP_practice.md)
-* [Testing Debt Primera Entrega](docs/Testing_debt_Primera_entrega.md)
-* [DevEx Developer Productivity](docs/DevEx_DeveloperProductivity.md)
-* [Procesos de CI](docs/Procesos_de_CI.md)
-* [Vibe Coding vs SDD](docs/Vibe_codings_SDD.md)
-* [Architectural Smells](docs/Architectural_Smells.md)
+* [README Original](Original_README.md)
+* [Code Smells y Propuestas de Refactoring](Code_smells_Propuestas_refactoring.md)
+* [Clean Code XP Practice](Clean_code_XP_practice.md)
+* [Testing Debt Primera Entrega](Testing_debt_Primera_entrega.md)
+* [DevEx Developer Productivity](DevEx_DeveloperProductivity.md)
+* [Procesos de CI](Procesos_de_CI.md)
+* [Vibe Coding vs SDD](Vibe_codings_SDD.md)
+* [Architectural Smells](Architectural_Smells.md)
 
 ---
 
