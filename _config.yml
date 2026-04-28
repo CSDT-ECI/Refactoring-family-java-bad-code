@@ -11,10 +11,13 @@ plugins:
 
 # Navegación
 nav_enabled: true
+nav_sort: case_insensitive
 search_enabled: true
 
 # UI
 color_scheme: light
+heading_anchors: true
+back_to_top: true
 
 # Footer
 footer_content: "Proyecto académico - CSDT"

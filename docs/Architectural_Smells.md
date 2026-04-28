@@ -1,3 +1,8 @@
+---
+title: Architectural Debt
+nav_order: 9
+--- 
+
 # Architectural Debt
 ## Integrantes:
 - Juan David Martínez Méndez - [Fataltester](https://github.com/Fataltester)

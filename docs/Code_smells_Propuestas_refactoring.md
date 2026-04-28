@@ -1,3 +1,8 @@
+---
+title: Code Smells y Propuestas de Refactorización
+nav_order: 3
+---
+
 # Code smells y Propuestas de Refactorización.
 ## Integrantes:
 - Juan David Martínez Méndez - [Fataltester](https://github.com/Fataltester)
