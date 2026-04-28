@@ -1,6 +1,6 @@
 ---
 title: Vibe Coding y SDD
-nav_order: 8
+nav_order: 9
 ---
 
 # Vibe Coding en el Contexto del Proyecto

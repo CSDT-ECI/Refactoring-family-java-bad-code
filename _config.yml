@@ -22,13 +22,7 @@ back_to_top: true
 # Footer
 footer_content: "Proyecto académico - CSDT"
 
-# Permite links a HTML (reportes)
+# Links externos
 aux_links:
   "GitHub Repository":
     - "https://github.com/CSDT-ECI/Refactoring-family-java-bad-code"
-
-# Orden por carpetas (opcional pero recomendado)
-collections:
-  docs:
-    permalink: "/:path/"
-    output: true
