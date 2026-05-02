@@ -1,3 +1,9 @@
+---
+title: Readme
+nav_order: 2
+nav_exclude: true
+---
+
 # Refactoring Family Java Bad Code
 
 > **Proyecto:** [family-java-bad-code](https://github.com/geektrust/family-java-bad-code) — Sistema de árbol genealógico en Java  

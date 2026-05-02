@@ -1,3 +1,8 @@
+---
+title: Clean code y XP practices
+nav_order: 5
+---
+
 # Clean code y XP practices.
 ## Integrantes:
 - Juan David Martínez Méndez - [Fataltester](https://github.com/Fataltester)

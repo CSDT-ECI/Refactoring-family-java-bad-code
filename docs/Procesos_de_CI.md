@@ -1,3 +1,8 @@
+---
+title: Procesos de CI
+nav_order: 8
+---
+
 # Procesos de CI.
 
 ## Integrantes:

@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'org.sonarqube' version '5.1.0.4882'
-    id 'info.solidsoft.pitest' version '1.15.0'
+//    id 'info.solidsoft.pitest' version '1.15.0'
 }
 
 group = 'com.example'
@@ -35,7 +35,7 @@ sonar {
         property 'sonar.java.source', '1.8'
     }
 }
-
+/*
 // ─── PIT Mutation Testing ─────────────────────────────────────────────────────
 pitest {
     junit5PluginVersion  = '1.2.1'
@@ -48,7 +48,7 @@ pitest {
     threads              = 2
     mutationThreshold    = 0  // the build fails if the score is less than the mutation value
     coverageThreshold    = 0 // the build fails if the code coverage is less than the coverage value
-}
+}*/
 // ─── JAR ─────────────────────────────────────────────────────────────────────
 jar {
     archiveBaseName = 'geektrust'
@@ -94,3 +94,12 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
 }
+
+// Lombok (para generar getters/setters/constructores y simplificar POJOs)
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+}
+

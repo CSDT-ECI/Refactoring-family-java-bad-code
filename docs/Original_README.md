@@ -1,3 +1,9 @@
+---
+title: Original ReadMe
+nav_order: 3
+nav_exclude: false
+---
+
 This is a bad solution implementation for the Family problem once hosted by Geektrust. This problem has now been retired. We do not evaluate this solution if you submit it. Please do not submit a coding solution to this. A refactored better solution for this code is available [here](https://github.com/geektrust/family-java-good-code) 
 
 Please check the problem statement file Geektrust-Problems1.pdf in this repo for more details.

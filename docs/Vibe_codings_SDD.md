@@ -1,4 +1,9 @@
-## Vibe Coding en el Contexto del Proyecto
+---
+title: Vibe Coding y SDD
+nav_order: 9
+---
+
+# Vibe Coding en el Contexto del Proyecto
 ## Integrantes:
 - Juan David Martínez Méndez - [Fataltester](https://github.com/Fataltester)
 - Samuel Alejandro Prieto Reyes - [AlejandroPrieto82](https://github.com/AlejandroPrieto82)

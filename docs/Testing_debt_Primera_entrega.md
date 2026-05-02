@@ -1,3 +1,8 @@
+---
+title: Testing Debt — Primera Entrega
+nav_order: 6
+---
+
 # Testing Debt — Primera Entrega
 
 ## Integrantes:
