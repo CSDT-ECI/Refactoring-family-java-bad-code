@@ -115,16 +115,21 @@ La estructura del proyecto es la siguiente:
 ### Después de la refactorización:
 ```
 .
+
+├── .github/workflows
+│           └── ci.yml
 ├── build.gradle
 ├── docs
-│   ├── Architectural_Smells.md
-│   ├── Clean_code_XP_practice.md
-│   ├── Code_smells_Propuestas_refactoring.md
-│   ├── DevEx_DeveloperProductivity.md
-│   ├── Original_README.md
-│   ├── Procesos_de_CI.md
-│   ├── Testing_debt_Primera_entrega.md
-│   └── Vibe_codings_SDD.md
+│   ├── Architectural_Smells.md
+│   ├── Clean_code_XP_practice.md
+│   ├── Code_smells_Propuestas_refactoring.md
+│   ├── _config.yml
+│   ├── DevEx_DeveloperProductivity.md
+│   ├── index.md
+│   ├── Original_README.md
+│   ├── Procesos_de_CI.md
+│   ├── Testing_debt_Primera_entrega.md
+│   └── Vibe_codings_SDD.md
 ├── Geektrust-Problems1.pdf
 ├── gradlew
 ├── gradlew.bat
@@ -138,16 +143,23 @@ La estructura del proyecto es la siguiente:
 ├── README.md
 ├── reports
 │   ├── jacocoindex.html
-│   ├── jacoco.xml
 │   └── spotbugmain.html
 ├── scripts
 │   ├── run.bat
 │   └── run.sh
 └── src
     ├── main/java/com/example/geektrust
-    │                          ├── Family.java
-    │                          ├── Main.java
-    │                          └── Person.java
+    │                   ├── data
+    │                   │   ├── family.txt
+    │                   │   └── queries.txt
+    │                   ├── exception
+    │                   │   ├── FamilyException.java
+    │                   │   └── Message.java
+    │                   ├── Main.java
+    │                   └── service
+    │                       ├── Family.java
+    │                       ├── PersonImpl.java
+    │                       └── Person.java
     │
     └── test/java/com/example/geektrust
                                ├── FamilyTest.java
