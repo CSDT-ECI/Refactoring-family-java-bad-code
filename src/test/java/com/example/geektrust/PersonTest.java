@@ -1,5 +1,7 @@
 package com.example.geektrust;
 
+import com.example.geektrust.service.Person;
+import com.example.geektrust.service.PersonImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,7 @@ class PersonTest {
     @DisplayName("Constructor básico almacena nombre y género")
     void Should_StoreNameAndGender_When_BasicConstructorIsUsed() {
         // Arrange
-        Person person = new Person("TestPerson", "Male");
+        Person person = new PersonImpl("TestPerson", "Male");
 
         // Assert
         assertEquals("TestPerson", person.getName());
@@ -24,7 +26,7 @@ class PersonTest {
     @DisplayName("Constructor completo almacena padre y madre")
     void Should_StoreFatherAndMother_When_FullConstructorIsUsed() {
         // Arrange
-        Person person = new Person("Child", "Female", "Dad", "Mom");
+        Person person = new PersonImpl("Child", "Female", "Dad", "Mom");
 
         // Assert
         assertEquals("Dad", person.getFatherName());
@@ -35,7 +37,7 @@ class PersonTest {
     @DisplayName("Lista de hijos inicia vacía")
     void Should_StartWithEmptyChildrenList_When_PersonIsCreated() {
         // Arrange
-        Person person = new Person("Solo", "Male");
+        Person person = new PersonImpl("Solo", "Male");
 
         // Assert
         assertNotNull(person.getChildren());
@@ -46,8 +48,8 @@ class PersonTest {
     @DisplayName("addChild agrega hijo correctamente")
     void Should_AddChildToChildrenList_When_AddChildIsCalled() {
         // Arrange
-        Person parent = new Person("Parent", "Female");
-        Person child = new Person("Child", "Male");
+        Person parent = new PersonImpl("Parent", "Female");
+        Person child = new PersonImpl("Child", "Male");
 
         // Act
         boolean result = parent.addChild(child);
@@ -61,7 +63,7 @@ class PersonTest {
     @DisplayName("toString retorna el nombre de la persona")
     void Should_ReturnName_When_ToStringIsCalled() {
         // Arrange
-        Person person = new Person("Asha", "Female");
+        Person person = new PersonImpl("Asha", "Female");
 
         // Assert
         assertEquals("Asha", person.toString());
@@ -71,7 +73,7 @@ class PersonTest {
     @DisplayName("setters actualizan los campos correctamente")
     void Should_UpdateAllFields_When_SettersAreCalled() {
         // Arrange
-        Person person = new Person("Old", "Male");
+        Person person = new PersonImpl("Old", "Male");
 
         // Act
         person.setName("New");

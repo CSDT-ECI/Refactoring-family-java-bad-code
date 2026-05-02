@@ -1,0 +1,7 @@
+# Ejemplo de consultas - formato: RELATION Person RelationName
+# Por ejemplo: GET_RELATIONSHIP Dritha Paternal-Uncle -> formato en el proyecto original es: GET_RELATIONSHIP Dritha Paternal-Uncle
+GET_RELATIONSHIP Dritha Paternal-Uncle
+GET_RELATIONSHIP Vich Sister-In-Law
+# Ejemplo de agregar hijo: ADD_CHILD MotherName ChildName Gender
+ADD_CHILD Anga NewChild Male
+

@@ -201,14 +201,14 @@
             <td>
                <span class="priority-2">CT</span>
             </td>
-            <td>Exception thrown in class com.example.geektrust.Family at new com.example.geektrust.Family(String[]) will leave the constructor. The object under construction remains partially initialized and may be vulnerable to Finalizer attacks.</td>
+            <td>Exception thrown in class com.example.geektrust.service.Family at new com.example.geektrust.service.Family(String[]) will leave the constructor. The object under construction remains partially initialized and may be vulnerable to Finalizer attacks.</td>
          </tr>
          <tr class="detailrow1">
             <td/>
             <td>
                <p id="d1e8" style="display: none;">
                   <a href="#CT_CONSTRUCTOR_THROW">Bug type CT_CONSTRUCTOR_THROW (click for details)</a>
-                  <br/>In class com.example.geektrust.Family<br/>In method new com.example.geektrust.Family(String[])<br/>At Family.java:[line 26]<br/>At Family.java:[line 26]</p>
+                  <br/>In class com.example.geektrust.service.Family<br/>In method new com.example.geektrust.service.Family(String[])<br/>At Family.java:[line 26]<br/>At Family.java:[line 26]</p>
             </td>
          </tr>
       </table>
@@ -247,42 +247,42 @@
             <td>
                <span class="priority-2">EI</span>
             </td>
-            <td>com.example.geektrust.Person.getChildren() may expose internal representation by returning Person.children</td>
+            <td>com.example.geektrust.service.Person.getChildren() may expose internal representation by returning Person.children</td>
          </tr>
          <tr class="detailrow1">
             <td/>
             <td>
                <p id="d1e108" style="display: none;">
                   <a href="#EI_EXPOSE_REP">Bug type EI_EXPOSE_REP (click for details)</a>
-                  <br/>In class com.example.geektrust.Person<br/>In method com.example.geektrust.Person.getChildren()<br/>Field com.example.geektrust.Person.children<br/>At Person.java:[line 23]</p>
+                  <br/>In class com.example.geektrust.service.Person<br/>In method com.example.geektrust.service.Person.getChildren()<br/>Field com.example.geektrust.service.Person.children<br/>At Person.java:[line 23]</p>
             </td>
          </tr>
          <tr class="tablerow0" onclick="toggleRow('d1e124');">
             <td>
                <span class="priority-2">EI2</span>
             </td>
-            <td>com.example.geektrust.Person.setChildren(List) may expose internal representation by storing an externally mutable object into Person.children</td>
+            <td>com.example.geektrust.service.Person.setChildren(List) may expose internal representation by storing an externally mutable object into Person.children</td>
          </tr>
          <tr class="detailrow0">
             <td/>
             <td>
                <p id="d1e124" style="display: none;">
                   <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
-                  <br/>In class com.example.geektrust.Person<br/>In method com.example.geektrust.Person.setChildren(List)<br/>Field com.example.geektrust.Person.children<br/>Local variable named children<br/>At Person.java:[line 27]</p>
+                  <br/>In class com.example.geektrust.service.Person<br/>In method com.example.geektrust.service.Person.setChildren(List)<br/>Field com.example.geektrust.service.Person.children<br/>Local variable named children<br/>At Person.java:[line 27]</p>
             </td>
          </tr>
          <tr class="tablerow1" onclick="toggleRow('d1e34');">
             <td>
                <span class="priority-2">MS</span>
             </td>
-            <td>Public static com.example.geektrust.Family.getFamilyInstance(String[]) may expose internal representation by returning Family.family</td>
+            <td>Public static com.example.geektrust.service.Family.getFamilyInstance(String[]) may expose internal representation by returning Family.family</td>
          </tr>
          <tr class="detailrow1">
             <td/>
             <td>
                <p id="d1e34" style="display: none;">
                   <a href="#MS_EXPOSE_REP">Bug type MS_EXPOSE_REP (click for details)</a>
-                  <br/>In class com.example.geektrust.Family<br/>In method com.example.geektrust.Family.getFamilyInstance(String[])<br/>Field com.example.geektrust.Family.family<br/>At Family.java:[line 45]</p>
+                  <br/>In class com.example.geektrust.service.Family<br/>In method com.example.geektrust.service.Family.getFamilyInstance(String[])<br/>Field com.example.geektrust.service.Family.family<br/>At Family.java:[line 45]</p>
             </td>
          </tr>
       </table>
@@ -298,14 +298,14 @@
             <td>
                <span class="priority-2">Dm</span>
             </td>
-            <td>com.example.geektrust.Family.&lt;static initializer for Family&gt;() invokes inefficient new String() constructor</td>
+            <td>com.example.geektrust.service.Family.&lt;static initializer for Family&gt;() invokes inefficient new String() constructor</td>
          </tr>
          <tr class="detailrow1">
             <td/>
             <td>
                <p id="d1e22" style="display: none;">
                   <a href="#DM_STRING_VOID_CTOR">Bug type DM_STRING_VOID_CTOR (click for details)</a>
-                  <br/>In class com.example.geektrust.Family<br/>In method com.example.geektrust.Family.&lt;static initializer for Family&gt;()<br/>At Family.java:[line 16]</p>
+                  <br/>In class com.example.geektrust.service.Family<br/>In method com.example.geektrust.service.Family.&lt;static initializer for Family&gt;()<br/>At Family.java:[line 16]</p>
             </td>
          </tr>
          <tr class="tablerow0" onclick="toggleRow('d1e96');">
@@ -349,14 +349,14 @@
             <td>
                <span class="priority-2">SF</span>
             </td>
-            <td>Switch statement found in com.example.geektrust.Family.getRelationship(String, String) where default case is missing</td>
+            <td>Switch statement found in com.example.geektrust.service.Family.getRelationship(String, String) where default case is missing</td>
          </tr>
          <tr class="detailrow0">
             <td/>
             <td>
                <p id="d1e50" style="display: none;">
                   <a href="#SF_SWITCH_NO_DEFAULT">Bug type SF_SWITCH_NO_DEFAULT (click for details)</a>
-                  <br/>In class com.example.geektrust.Family<br/>In method com.example.geektrust.Family.getRelationship(String, String)<br/>At Family.java:[lines 106-141]</p>
+                  <br/>In class com.example.geektrust.service.Family<br/>In method com.example.geektrust.service.Family.getRelationship(String, String)<br/>At Family.java:[lines 106-141]</p>
             </td>
          </tr>
       </table>
