@@ -1,4 +1,5 @@
 ---
+layout: default
 title: Procesos de CI
 nav_order: 8
 ---

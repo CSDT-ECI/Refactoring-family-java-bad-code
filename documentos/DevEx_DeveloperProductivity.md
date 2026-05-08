@@ -1,5 +1,4 @@
 ---
-layout: default
 title: DevEx y Developer Productivity
 nav_order: 7
 ---

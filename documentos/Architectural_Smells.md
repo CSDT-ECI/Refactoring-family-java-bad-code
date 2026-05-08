@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Architectural Debt
 nav_order: 10
 --- 

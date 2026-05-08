@@ -1,4 +1,5 @@
 ---
+layout: default
 title: Code Smells y Propuestas de Refactorización
 nav_order: 4
 ---

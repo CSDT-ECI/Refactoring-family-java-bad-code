@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Vibe Coding y SDD
 nav_order: 9
 ---

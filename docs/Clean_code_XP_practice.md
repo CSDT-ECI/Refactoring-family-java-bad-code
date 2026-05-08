@@ -1,4 +1,5 @@
 ---
+layout: default
 title: Clean code y XP practices
 nav_order: 5
 ---
