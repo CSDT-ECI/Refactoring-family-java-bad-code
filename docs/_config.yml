@@ -4,20 +4,8 @@ description: Refactoring, Code Quality and Software Architecture Project
 url: "https://csdt-eci.github.io"
 baseurl: "/Refactoring-family-java-bad-code"
 
-remote_theme: just-the-docs/just-the-docs
-
-plugins:
-  - jekyll-remote-theme
-
-# Navegación
-nav_enabled: true
-nav_sort: case_insensitive
-search_enabled: true
-
-# UI
-color_scheme: light
-heading_anchors: true
-back_to_top: true
+# Sin remote_theme para que el diseño custom no sea interferido
+plugins: []
 
 # Footer
 footer_content: "Proyecto académico - CSDT"
