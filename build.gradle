@@ -44,7 +44,7 @@ pitest {
     mutators             = ['DEFAULTS']
     outputFormats        = ['HTML', 'XML']
     timestampedReports   = false
-    reportsDir           = file("$buildDir/reports/pitest")
+    reportDir            = layout.buildDirectory.dir("reports/pitest").get().asFile
     threads              = 2
     mutationThreshold    = 0  // the build fails if the score is less than the mutation value
     coverageThreshold    = 0 // the build fails if the code coverage is less than the coverage value
