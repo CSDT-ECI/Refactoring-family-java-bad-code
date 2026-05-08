@@ -1,0 +1,199 @@
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<style>
+  /* ── Tokens ── */
+  :root {
+    --c-accent:   #38bdf8;
+    --c-accent2:  #818cf8;
+    --c-accent3:  #34d399;
+    --c-muted:    #475569;
+    --c-surface:  #0d1526;
+    --c-border:   rgba(99,182,255,0.10);
+    --c-text:     #94a3b8;
+    --c-heading:  #e2e8f0;
+    --font-mono:  'JetBrains Mono', monospace;
+    --font-disp:  'Syne', sans-serif;
+  }
+
+  /* ── Grid bg ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+    background-size: 52px 52px;
+  }
+
+  /* ── Glow ── */
+  body::after {
+    content: '';
+    position: fixed; top: -25%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 500px; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse, rgba(56,189,248,0.055) 0%, transparent 70%);
+  }
+
+  /* ── Sidebar ── */
+  .side-bar {
+    background: #060d1a !important;
+    border-right: 1px solid var(--c-border) !important;
+  }
+  .site-title {
+    font-family: var(--font-disp) !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.01em !important;
+    color: var(--c-heading) !important;
+  }
+  .nav-list .nav-list-item .nav-list-link {
+    font-family: var(--font-mono) !important;
+    font-size: 12px !important;
+    color: var(--c-muted) !important;
+    letter-spacing: 0.01em;
+    transition: color 0.2s;
+  }
+  .nav-list .nav-list-item .nav-list-link:hover,
+  .nav-list .nav-list-item .nav-list-link.active {
+    color: var(--c-accent) !important;
+    background: rgba(56,189,248,0.06) !important;
+  }
+  .nav-list .nav-list-item .nav-list-link.active {
+    border-left: 2px solid var(--c-accent);
+  }
+
+  /* ── Main area ── */
+  .main-content-wrap { background: transparent !important; }
+  .main { position: relative; z-index: 1; }
+
+  /* ── Typography ── */
+  body, p, li, td {
+    font-family: var(--font-mono) !important;
+    color: var(--c-text) !important;
+    font-size: 13.5px !important;
+    line-height: 1.75 !important;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-disp) !important;
+    color: var(--c-heading) !important;
+    letter-spacing: -0.02em !important;
+  }
+  h1 { font-size: 2rem !important; font-weight: 800 !important; margin-bottom: 8px !important; }
+  h2 {
+    font-size: 1.2rem !important; font-weight: 700 !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid var(--c-border) !important;
+    margin-top: 40px !important;
+  }
+  h3 { font-size: 1rem !important; font-weight: 700 !important; color: var(--c-accent2) !important; }
+  h4 { font-size: 0.9rem !important; color: var(--c-muted) !important; text-transform: uppercase; letter-spacing: 0.1em !important; }
+
+  /* ── Breadcrumb label ── */
+  .main-content > h1:first-child::before {
+    content: attr(data-label);
+  }
+
+  /* ── Links ── */
+  a { color: var(--c-accent) !important; text-decoration: none !important; }
+  a:hover { border-bottom: 1px solid var(--c-accent); }
+
+  /* ── Code ── */
+  code, pre {
+    font-family: var(--font-mono) !important;
+    font-size: 12.5px !important;
+  }
+  code:not(pre code) {
+    background: rgba(56,189,248,0.08) !important;
+    color: var(--c-accent) !important;
+    border: 1px solid rgba(56,189,248,0.15) !important;
+    border-radius: 3px !important;
+    padding: 1px 6px !important;
+  }
+  pre.highlight, div.highlighter-rouge pre {
+    background: #0d1526 !important;
+    border: 1px solid var(--c-border) !important;
+    border-radius: 6px !important;
+    padding: 18px 20px !important;
+  }
+
+  /* ── Tables ── */
+  table { border-collapse: collapse; width: 100%; }
+  thead tr { background: rgba(56,189,248,0.05) !important; border-bottom: 1px solid var(--c-border) !important; }
+  th {
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--c-muted) !important;
+    padding: 10px 14px !important; font-weight: 400 !important;
+  }
+  td { padding: 10px 14px !important; border-bottom: 1px solid rgba(99,182,255,0.05) !important; }
+  tbody tr:hover td { background: rgba(56,189,248,0.03) !important; }
+
+  /* ── Blockquote ── */
+  blockquote {
+    border-left: 2px solid var(--c-accent) !important;
+    background: rgba(56,189,248,0.04) !important;
+    border-radius: 0 4px 4px 0 !important;
+    padding: 12px 18px !important;
+    margin: 0 0 16px !important;
+  }
+  blockquote p { color: var(--c-text) !important; margin: 0 !important; }
+
+  /* ── Section label (hr replacement) ── */
+  hr {
+    border: none !important;
+    border-top: 1px solid var(--c-border) !important;
+    margin: 36px 0 !important;
+  }
+
+  /* ── Aux link ── */
+  .aux-nav-list-item a {
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    color: var(--c-accent) !important;
+    border: 1px solid rgba(56,189,248,0.2) !important;
+    border-radius: 3px !important;
+    padding: 4px 12px !important;
+    transition: background 0.2s !important;
+  }
+  .aux-nav-list-item a:hover {
+    background: rgba(56,189,248,0.1) !important;
+    border-bottom: 1px solid rgba(56,189,248,0.2) !important;
+  }
+
+  /* ── Search ── */
+  .search-input {
+    font-family: var(--font-mono) !important;
+    font-size: 12px !important;
+    background: var(--c-surface) !important;
+    border: 1px solid var(--c-border) !important;
+    color: var(--c-heading) !important;
+  }
+
+  /* ── Page fade in ── */
+  .main-content {
+    animation: pgFade 0.4s ease forwards;
+  }
+  @keyframes pgFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Label chip (used in pages) ── */
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.2);
+    color: var(--c-accent);
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 2px; margin-bottom: 20px;
+  }
+  .chip::before {
+    content: '';
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--c-accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+</style>

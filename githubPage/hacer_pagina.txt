@@ -1,0 +1,11 @@
+Tengo un archivo .md que forma parte de un GitHub Pages con Just-the-Docs (dark theme) y un head_custom.html con fuentes Syne + JetBrains Mono y CSS premium.
+
+Transforma este .md para que sea compatible con ese setup. Reglas:
+1. El front matter debe tener: layout: default, title, nav_order (respeta el que ya tiene)
+2. NO cambies ningún contenido, redacción, ni estructura de secciones
+3. Solo ajusta el front matter si le falta layout: default
+4. Convierte saltos de línea \r\n a \n (sin retorno de carro)
+5. No agregues nada extra, no quites nada del contenido
+
+Aquí está el archivo:
+[PEGA EL CONTENIDO DEL MD AQUÍ]
